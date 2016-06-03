@@ -1,1 +1,12 @@
 .idea/*
+**/webpack-stats.json
+node_modules
+npm-debug.log
+dist
+.tmp
+.DS_Store
+.sass-cache
+.env
+.c9
+.idea
+.nyc_output
