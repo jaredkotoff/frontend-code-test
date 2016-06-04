@@ -6,31 +6,38 @@ module.exports = {
   module: {
     preLoaders: [
       {
-        test: /\.js$/,
-        loader: "eslint-loader",
+        test: /\.js(x)*$/,
+        loader: 'eslint-loader',
         exclude: /node_modules/
       }
     ],
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.js(x)*$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
           presets: ['es2015', 'react']
         }
-      }, {
-        test: /\.css$/,
+      },
+      {
+        test: /\.(sc|c)ss$/,
         exclude: /node_modules/,
-        loader: 'style-loader!css-loader'
-      }, {
+        loaders: ["style", "css", "sass"]
+      },
+      {
         test: /\.(png|jpg)$/,
         exclude: /node_modules/,
         loader: 'url-loader?limit=8192'
+      },
+      {
+        test: /\.json$/,
+        exclude: /node_modules/,
+        loader: 'json-loader'
       }
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.json']
+    extensions: ['', '.js', '.jsx', '.json', '.css', '.scss']
   }
 };

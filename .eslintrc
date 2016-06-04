@@ -1,5 +1,8 @@
 {
   "parser": "babel-eslint",
   "extends": "airbnb",
-  "plugins": ["react"]
+  "plugins": ["react"],
+  rules: {
+    "react/prefer-stateless-function": 1
+  }
 }
