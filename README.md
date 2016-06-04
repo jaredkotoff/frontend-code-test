@@ -10,7 +10,7 @@ This is an at-home exercise that DataScience uses as part of their standard inte
 
 ## Requirements
 
-Using the provided JSON data representing a collection of meal recipes, create a micro frontend application that meets the following criteria:
+Using provided JSON data representing a collection of meal recipes, create a micro frontend application that meets the following criteria:
 
 * Display a list (or table) of recipes.
 * Allow filtering of recipes by a single ingredient.

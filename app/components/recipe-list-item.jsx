@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { uniq } from 'lodash';
 
 class RecipeListItem extends Component {
   static propTypes = {
@@ -11,17 +12,16 @@ class RecipeListItem extends Component {
   }
 
   renderIngredient(ingredient) {
-    return `${ingredient}`;
+    return <li>{ingredient}</li>;
   }
 
   renderIngredients(ingredients) {
-    const ingredientList = ingredients.map((ingredient, i, arr) => {
-      let str = this.renderIngredient(ingredient);
-      if (i + 1 !== arr.length) str += ', ';
-      return str;
-    });
+    const sortedIngredients = uniq(ingredients).sort();
+    const ingredientList = sortedIngredients.map((ingredient) => this.renderIngredient(ingredient));
 
-    return ingredientList;
+    return (
+      <ol>{ingredientList}</ol>
+    );
   }
 
   render() {
