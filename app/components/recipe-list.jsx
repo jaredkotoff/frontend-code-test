@@ -18,7 +18,7 @@ class RecipeList extends Component {
     });
   }
 
-  renderJson() {
+  renderRecipes() {
     return this.state.data.map((recipe) =>
       <RecipeListItem key={hash(recipe)} recipe={recipe} />
     );
@@ -26,8 +26,8 @@ class RecipeList extends Component {
 
   render() {
     return (
-      <div>
-        {this.renderJson()}
+      <div className="recipe-list">
+        {this.renderRecipes()}
       </div>
     );
   }

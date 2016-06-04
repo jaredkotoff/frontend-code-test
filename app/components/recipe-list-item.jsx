@@ -28,7 +28,7 @@ class RecipeListItem extends Component {
     const { name, type, cook_time: cookTime, ingredients } = this.props.recipe;
 
     return (
-      <div className="recipe">
+      <div className="recipe content-box">
         <h2 className="recipe-name">{name}</h2>
         <span className="recipe-info">
           {type} - {cookTime} mins

@@ -1,5 +1,7 @@
-@import "./_variables.scss";
-@import "./recipe-list-item.scss";
+@import './_variables';
+@import './ingredient-list';
+@import './recipe-list-item';
+@import './recipe-list';
 
 body {
   background: $background-color;
@@ -15,4 +17,16 @@ body {
 .content {
   margin: 0 auto;
   max-width: 80%;
+}
+
+.flexbox {
+  display: flex;
+}
+
+.content-box {
+  background: $white;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px $black;
+  color: $black;
+  padding: 25px;
 }
