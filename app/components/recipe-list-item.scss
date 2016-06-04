@@ -1,0 +1,21 @@
+.recipe {
+  background: $white;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px $black;
+  color: $black;
+  margin-bottom: 25px;
+  padding: 25px;
+}
+
+.recipe-name {
+  margin: 0;
+}
+
+.recipe-info {
+  font-size: small;
+  font-style: italic;
+}
+
+.recipe-ingredients {
+  margin-top: 15px;
+}
