@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import hash from 'object-hash';
 
 const recipeData = require('../data/recipes.json');
 
@@ -17,8 +18,9 @@ class RecipeList extends Component {
   }
 
   renderJson() {
-    console.log(this.state.data[0].name);
-    return this.state.data.map((recipe) => <h2>{recipe.name}</h2>);
+    return this.state.data.map((recipe) =>
+      <h2 key={hash(recipe)}>{recipe.name}</h2>
+    );
   }
 
   render() {
