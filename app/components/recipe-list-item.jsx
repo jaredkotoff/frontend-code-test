@@ -12,7 +12,7 @@ class RecipeListItem extends Component {
   }
 
   renderIngredient(ingredient) {
-    return <li>{ingredient}</li>;
+    return <li key={ingredient}>{ingredient}</li>;
   }
 
   renderIngredients(ingredients) {
