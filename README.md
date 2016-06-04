@@ -1,13 +1,12 @@
 DataScience's Frontend Code Test
 ==================
 
-This is an at-home exercise that we use as part of our standard interview process for frontend and full-stack developers.
+This is an at-home exercise that DataScience uses as part of their standard interview process for frontend and full-stack developers.
 
 ## Instructions
 
-* Clone this repo
-* Complete the exercise and submit either a zip of the solution or a link to a new repo
-* You may use any resources, frameworks, libraries, etc and style the markup however you like.
+* run `npm install`
+* open `index.html`
 
 ## Requirements
 
@@ -19,4 +18,3 @@ Using the provided JSON data representing a collection of meal recipes, create a
 * Show an alphabetically ordered list of distinct ingredients for the selected recipes. This should update as recipes are selected / unselected.
 * Persist the selections locally and regenerate the view on page refresh.
 * In a README note any required setup to be able to run the app, such as modifying hosts file, etc.
-
