@@ -20,7 +20,7 @@ class IngredientList extends Component {
     const ingredients = {};
 
     recipes.forEach((recipe) => {
-      const uniqIngredients = uniq(recipe.ingredients);
+      const uniqIngredients = uniq(recipe.ingredients).sort();
       uniqIngredients.forEach((ingredient) => {
         let count = 0;
         let recipeNames = [];
