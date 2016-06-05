@@ -1,33 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import RecipeListItem from './recipe-list-item';
 import hash from 'object-hash';
 
-const recipeData = require('../data/recipes.json');
-
 class RecipeList extends Component {
-  constructor() {
-    super();
-    this.state = {
-      data: '',
-    };
+  static propTypes = {
+    recipes: PropTypes.array.isRequired,
   }
 
-  componentWillMount() {
-    this.setState({
-      data: recipeData,
-    });
-  }
-
-  renderRecipes() {
-    return this.state.data.map((recipe) =>
+  renderRecipes(recipes) {
+    return recipes.map((recipe) =>
       <RecipeListItem key={hash(recipe)} recipe={recipe} />
     );
   }
 
   render() {
+    const { recipes } = this.props;
     return (
       <div className="recipe-list">
-        {this.renderRecipes()}
+        {this.renderRecipes(recipes)}
       </div>
     );
   }
