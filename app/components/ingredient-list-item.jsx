@@ -14,7 +14,10 @@ class IngredientListItem extends Component {
     const { ingredient } = this.props;
 
     return (
-      <li>{ingredient.name} ({ingredient.count})</li>
+      <li>
+        <input type="checkbox" name={ingredient.name} value={ingredient.name} />
+        {ingredient.name} <small>({ingredient.count})</small>
+      </li>
     );
   }
 }
