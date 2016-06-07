@@ -127,7 +127,7 @@ class App extends Component {
       userRecipes = JSON.parse(localStorage.userRecipes);
     }
 
-    const allRecipes = recipeData.concat(userRecipes);
+    const allRecipes = recipeData.concat(userRecipes).sort(this.compare);
     const ingredients = this.generateIngredients(allRecipes);
     this.setState({
       checked,
