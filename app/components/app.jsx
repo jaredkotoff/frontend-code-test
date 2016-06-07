@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import RecipeList from './recipe-list';
 import IngredientList from './ingredient-list';
+import AddRecipe from './add-recipe';
 
 import { includes, intersection, pull, uniq } from 'lodash';
 
@@ -16,11 +17,18 @@ class App extends Component {
       checked = JSON.parse(localStorage.checked);
     }
 
+    let userRecipes = [];
+    if (localStorage.userRecipes) {
+      userRecipes = JSON.parse(localStorage.userRecipes);
+    }
+
+    const allRecipes = recipeData.concat(userRecipes);
+
     this.state = {
       checked,
       filteredRecipes: [],
       ingredients: [],
-      recipes: recipeData.sort(this.compare),
+      recipes: allRecipes.sort(this.compare),
     };
   }
 
@@ -97,20 +105,23 @@ class App extends Component {
   }
 
   compare(a, b) {
-    if (a.name < b.name) {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) {
       return -1;
-    } else if (a.name > b.name) {
+    } else if (a.name.toLowerCase() > b.name.toLowerCase()) {
       return 1;
     }
     return 0;
   }
 
   render() {
-    const { ingredients, filteredRecipes, checked } = this.state;
+    const { ingredients, filteredRecipes, checked, recipes } = this.state;
     return (
       <div className="container">
         <div className="content">
           <h1>Reci-Pie</h1>
+          <AddRecipe
+            recipes={recipes}
+          />
           <div className="flexbox">
             <IngredientList
               ingredients={ingredients}

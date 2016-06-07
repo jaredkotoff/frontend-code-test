@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import IngredientListItem from './ingredient-list-item';
 
 import { includes } from 'lodash';
-
-import IngredientListItem from './ingredient-list-item';
 
 class IngredientList extends Component {
   static propTypes = {

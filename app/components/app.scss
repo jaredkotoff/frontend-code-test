@@ -1,4 +1,5 @@
 @import './_variables';
+@import './add-recipe';
 @import './ingredient-list';
 @import './recipe-list-item';
 @import './recipe-list';
@@ -20,7 +21,7 @@ h2 {
 
 .content {
   margin: 0 auto;
-  max-width: 80%;
+  max-width: 800px;
 }
 
 .flexbox {
