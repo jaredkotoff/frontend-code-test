@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
+// Renders a button that toggles a bot that allows a user to add recipes to the list
 class AddRecipe extends Component {
   static propTypes = {
     recipes: PropTypes.array.isRequired,
@@ -42,25 +43,32 @@ class AddRecipe extends Component {
     this.setState({ ingredients: e.target.value });
   }
 
+  // Takes in a string and returns a Title Case String
   titleName(name) {
     return name.trim().replace(/\b\w+/g, (s) =>
       s.charAt(0).toUpperCase() + s.substr(1).toLowerCase()
     );
   }
 
+  // Adds the new recipe to the app
   handleSubmit = (e) => {
+    // Stops the GET request
     e.preventDefault();
     const { updateApp } = this.props;
     const { name, type, cookTime, ingredients } = this.state;
+    // Break up the string of ingredients by commas
     const ingredientsArray = ingredients.split(',').map((ingredient) =>
+      // Fix casing on the ingredient name
       this.titleName(ingredient)
     ).filter((ingredient) => {
+      // Make sure the string isn't an empty string
       if (ingredient.length >= 1) {
         return true;
       }
       return false;
     });
 
+    // New recipe object
     const newRecipe = {
       name: this.titleName(name),
       type: this.titleName(type),
@@ -69,15 +77,21 @@ class AddRecipe extends Component {
       isUserGenerated: true,
     };
     let userRecipes = [];
+    // Get current list of recipes if it exists
     if (localStorage.userRecipes) {
       userRecipes = JSON.parse(localStorage.userRecipes);
     }
+    // Add the new recipe to the list
     userRecipes.push(newRecipe);
+    // Sync the localStorage to the new updated list
     localStorage.userRecipes = JSON.stringify(userRecipes);
+    // Clears the input form
     this.resetState();
+    // Forces the app to update
     updateApp();
   }
 
+  // Sets the form's state back to default
   resetState = () => {
     this.setState({
       active: false,
@@ -88,6 +102,7 @@ class AddRecipe extends Component {
     });
   }
 
+  // A simple button to toggle the active state which determins if it should display the input box
   renderAddButton() {
     return (
       <button
@@ -100,6 +115,7 @@ class AddRecipe extends Component {
     );
   }
 
+  // Renders a div that has the form for a user to add a new recipe
   renderAddBox() {
     const { name, type, cookTime } = this.state;
     return (
@@ -171,6 +187,7 @@ class AddRecipe extends Component {
     );
   }
 
+  // Renders a button that calls a function that clears the users localStorage (see main app.jsx)
   renderResetButton() {
     return (
       <button
@@ -184,6 +201,7 @@ class AddRecipe extends Component {
     );
   }
 
+  
   render() {
     const { active } = this.state;
     let content = this.renderAddButton();
