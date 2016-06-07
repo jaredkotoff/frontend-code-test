@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import { capitalize } from 'lodash';
+
 class AddRecipe extends Component {
   static propTypes = {
     recipes: PropTypes.array.isRequired,
@@ -12,7 +14,7 @@ class AddRecipe extends Component {
       name: '',
       type: '',
       cookTime: '',
-      ingredients: [],
+      ingredients: '',
     };
   }
 
@@ -36,13 +38,27 @@ class AddRecipe extends Component {
     this.setState({ cookTime: e.target.value });
   }
 
+  handleIngredientsChange = (e) => {
+    this.setState({ ingredients: e.target.value });
+  }
+
   handleSubmit = () => {
     const { name, type, cookTime, ingredients } = this.state;
+    const ingredientsArray = ingredients.split(',').map((ingredient) =>
+      capitalize(ingredient.trim())
+    )
+    .filter((ingredient) => {
+      if (ingredient.length >= 1) {
+        return true;
+      }
+      return false;
+    });
+    console.log(ingredients);
     const newRecipe = {
       name,
       type,
       cook_time: Number(cookTime),
-      ingredients,
+      ingredients: ingredientsArray,
       isUserGenerated: true,
     };
     let userRecipes = [];
@@ -69,30 +85,48 @@ class AddRecipe extends Component {
     return (
       <div className="add-recipe-box content-box">
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor="name">Recipe Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={this.handleNameChange}
-            required
-          /><br />
-          <label htmlFor="type">Recipe Type:</label>
-          <input
-            type="text"
-            name="type"
-            value={type}
-            onChange={this.handleTypeChange}
-            required
-          /><br />
-          <label htmlFor="cook_time">Cook Time:</label>
-          <input
-            type="number"
-            name="cook_time"
-            value={cookTime}
-            onChange={this.handleCookTimeChange}
-            required
-          /><br />
+          <div className="left-form">
+            <label htmlFor="name">Recipe Name:</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="SpaPeggy and Meatballs"
+              value={name}
+              onChange={this.handleNameChange}
+              required
+            /><br />
+            <label htmlFor="type">Recipe Type:</label>
+            <input
+              type="text"
+              name="type"
+              placeholder="Texas-Italian"
+              value={type}
+              onChange={this.handleTypeChange}
+              required
+            /><br />
+            <label htmlFor="cook_time">Cook Time:</label>
+            <input
+              type="number"
+              name="cook_time"
+              value={cookTime}
+              min={0}
+              max={999}
+              step={1}
+              placeholder="43"
+              onChange={this.handleCookTimeChange}
+              required
+            />
+          </div>
+          <div className="right-form">
+            <label htmlFor="ingredients">Ingredients:</label>
+            <textarea
+              type="text"
+              name="ingredients"
+              placeholder="Enter ingredients separated by a comma: Spaghetti, Tomato Sauce"
+              onChange={this.handleIngredientsChange}
+              required
+            />
+          </div><br />
           <span className="buttons">
             <button
               className="add-button"

@@ -6,12 +6,31 @@
 
 .add-recipe-box {
   text-align: left;
+
   label {
     display: inline-block;
     font-weight: bold;
     margin-right: 10px;
     min-width: 110px;
     text-align: right;
+    vertical-align: top;
+  }
+
+  input {
+    margin-bottom: 10px;
+  }
+
+  textarea {
+    height: 80px;
+  }
+
+  .left-form {
+    display: inline-block;
+  };
+
+  .right-form {
+    display: inline-block;
+    vertical-align: top;
   }
 }
 
