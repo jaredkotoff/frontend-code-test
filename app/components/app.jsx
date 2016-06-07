@@ -34,6 +34,38 @@ class App extends Component {
 
   componentWillMount() {
     const { recipes, checked } = this.state;
+
+    const filteredRecipes = this.filterRecipes(checked, recipes);
+    const ingredients = this.generateIngredients(recipes);
+    this.setState({
+      checked,
+      filteredRecipes,
+      ingredients,
+      recipes,
+    });
+  }
+
+  fetchRecipes = () => {
+    let checked = [];
+    if (localStorage.checked) {
+      checked = JSON.parse(localStorage.checked);
+    }
+
+    let userRecipes = [];
+    if (localStorage.userRecipes) {
+      userRecipes = JSON.parse(localStorage.userRecipes);
+    }
+
+    const allRecipes = recipeData.concat(userRecipes);
+    const ingredients = this.generateIngredients(allRecipes);
+    this.setState({
+      checked,
+      filteredRecipes: this.filterRecipes(checked, allRecipes),
+      ingredients,
+    });
+  }
+
+  generateIngredients(recipes) {
     const ingredients = {};
 
     recipes.forEach((recipe) => {
@@ -64,31 +96,7 @@ class App extends Component {
       sortedIngredients[key] = ingredients[key];
     });
 
-    const filteredRecipes = this.filterRecipes(checked, recipes);
-    this.setState({
-      checked,
-      filteredRecipes,
-      ingredients: sortedIngredients,
-      recipes,
-    });
-  }
-
-  fetchRecipes = () => {
-    let checked = [];
-    if (localStorage.checked) {
-      checked = JSON.parse(localStorage.checked);
-    }
-
-    let userRecipes = [];
-    if (localStorage.userRecipes) {
-      userRecipes = JSON.parse(localStorage.userRecipes);
-    }
-
-    const allRecipes = recipeData.concat(userRecipes);
-    this.setState({
-      checked,
-      filteredRecipes: this.filterRecipes(checked, allRecipes),
-    });
+    return sortedIngredients;
   }
 
   filterRecipes(checked, recipes) {

@@ -16,13 +16,18 @@ class RecipeListItem extends Component {
   deleteUserRecipe = () => {
     const { recipe: { name }, updateRecipes } = this.props;
     const userRecipes = JSON.parse(localStorage.userRecipes);
+    const checked = JSON.parse(localStorage.checked);
     userRecipes.forEach((recipe) => {
       if (recipe.name === name) {
         pull(userRecipes, recipe);
+        recipe.ingredients.forEach((ingredient) => {
+          pull(checked, ingredient);
+        });
       }
     });
 
     localStorage.userRecipes = JSON.stringify(userRecipes);
+    localStorage.checked = JSON.stringify(checked);
     updateRecipes();
   }
 
