@@ -53,7 +53,6 @@ class AddRecipe extends Component {
       }
       return false;
     });
-    console.log(ingredients);
     const newRecipe = {
       name,
       type,
@@ -74,6 +73,7 @@ class AddRecipe extends Component {
       <button
         type="button"
         onClick={this.handleClick}
+        className="toggle-add-button"
       >
         Add Recipe
       </button>
@@ -137,7 +137,7 @@ class AddRecipe extends Component {
             <button
               type="button"
               className="cancel-button"
-              handleSubmit={this.handleCancel}
+              onClick={this.handleCancel}
             >
               Cancel
             </button>

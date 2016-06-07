@@ -117,7 +117,6 @@ class App extends Component {
   updateIngredients = (name) => {
     const { checked, recipes } = this.state;
     const updatedChecked = checked;
-    console.log(updatedChecked);
     if (includes(checked, name)) {
       pull(updatedChecked, name);
     } else {
