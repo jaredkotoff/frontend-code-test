@@ -76,7 +76,7 @@ class AddRecipe extends Component {
             value={name}
             onChange={this.handleNameChange}
             required
-          />
+          /><br />
           <label htmlFor="type">Recipe Type:</label>
           <input
             type="text"
@@ -84,7 +84,7 @@ class AddRecipe extends Component {
             value={type}
             onChange={this.handleTypeChange}
             required
-          />
+          /><br />
           <label htmlFor="cook_time">Cook Time:</label>
           <input
             type="number"
@@ -92,16 +92,22 @@ class AddRecipe extends Component {
             value={cookTime}
             onChange={this.handleCookTimeChange}
             required
-          />
-          <button type="submit">
-            Add
-          </button>
-          <button
-            type="button"
-            handleSubmit={this.handleCancel}
-          >
-            Cancel
-          </button>
+          /><br />
+          <span className="buttons">
+            <button
+              className="add-button"
+              type="submit"
+            >
+              Add
+            </button>
+            <button
+              type="button"
+              className="cancel-button"
+              handleSubmit={this.handleCancel}
+            >
+              Cancel
+            </button>
+          </span>
         </form>
       </div>
     );

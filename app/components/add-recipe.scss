@@ -3,3 +3,32 @@
   text-align: right;
   width: 100%;
 }
+
+.add-recipe-box {
+  text-align: left;
+  label {
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 110px;
+    text-align: right;
+  }
+}
+
+.buttons {
+  display: block;
+  text-align: center;
+  button {
+    &:first-child {
+      margin-right: 15px;
+    }
+  }
+}
+
+.add-button {
+  background-color: $green;
+}
+
+.cancel-button {
+  background-color: $light-grey;
+}
