@@ -11,31 +11,36 @@ const recipeData = require('../data/recipes.json');
 class App extends Component {
   constructor() {
     super();
+    this.state = {
+      checked: [],
+      filteredRecipes: [],
+      ingredients: [],
+      recipes: [],
+    };
+  }
 
+  componentWillMount() {
+    this.loadApp();
+  }
+
+  loadApp = () => {
     let checked = [];
+    // Get users filtered ingredient list form localStorage
     if (localStorage.checked) {
       checked = JSON.parse(localStorage.checked);
     }
 
     let userRecipes = [];
+    // Get any recipes the user added from localStorage
     if (localStorage.userRecipes) {
       userRecipes = JSON.parse(localStorage.userRecipes);
     }
 
-    const allRecipes = recipeData.concat(userRecipes);
-
-    this.state = {
-      checked,
-      filteredRecipes: [],
-      ingredients: [],
-      recipes: allRecipes.sort(this.compare),
-    };
-  }
-
-  componentWillMount() {
-    const { recipes, checked } = this.state;
-
+    // Combine the json data with the user's recipes and sort them alphabetically
+    const recipes = recipeData.concat(userRecipes).sort(this.compare);
+    // Get list of recipes that have any ingredients that are checked
     const filteredRecipes = this.filterRecipes(checked, recipes);
+    // Generate a list of all possible ingredients
     const ingredients = this.generateIngredients(recipes);
     this.setState({
       checked,
@@ -45,6 +50,72 @@ class App extends Component {
     });
   }
 
+  // Takes in an array of recipie objects and returns an object of ingredients with some stats
+  generateIngredients(recipes) {
+    const ingredients = {};
+
+    // Go through each recipe
+    recipes.forEach((recipe) => {
+      // Filter out duplicates of ingredients
+      const uniqIngredients = uniq(recipe.ingredients);
+      // Go through each ingredient
+      uniqIngredients.forEach((ingredient) => {
+        // Set default properties for first time ingredients
+        let count = 0;
+        let recipeNames = [];
+        let recipeTypes = [];
+        // See if the ingredient already exists in the object
+        if (ingredients[ingredient]) {
+          // Retrieve previous data for the ingredient
+          count = ingredients[ingredient].count;
+          recipeNames = ingredients[ingredient].recipeNames;
+          recipeTypes = ingredients[ingredient].recipeTypes;
+        }
+        // Increase the count of how many recipes this ingredient appears in
+        count += 1;
+        // Add the recipes name to a list
+        recipeNames.push(recipe.name);
+        // Add the recipe type to a list
+        recipeTypes.push(recipe.type);
+        // Add or update the ingredient to the object
+        ingredients[ingredient] = {
+          name: ingredient,
+          count,
+          recipeNames,
+          recipeTypes,
+        };
+      });
+    });
+
+    const sortedIngredients = {};
+    // Sort the object alphabetically
+    Object.keys(ingredients).sort().forEach((key) => {
+      sortedIngredients[key] = ingredients[key];
+    });
+
+    return sortedIngredients;
+  }
+
+  // Takes in an array of ingredient names and an array of recipe objects and
+  // returns an array of recipe objects that use any of the ingredients in the first array
+  filterRecipes(checked, recipes) {
+    // If no ingredients are checked show all recipes
+    if (!checked.length) {
+      return recipes;
+    }
+
+    let filteredRecipes = [];
+    filteredRecipes = recipes.filter((recipe) => {
+      // intersection is 0 if the recipe doesn't use at least one of the ingredients
+      if (intersection(recipe.ingredients, checked).length) {
+        return recipe;
+      }
+      return false;
+    });
+    return filteredRecipes;
+  }
+
+  // Gets recipes from JSON file and localStorage and updates the app's state
   fetchRecipes = () => {
     let checked = [];
     if (localStorage.checked) {
@@ -65,70 +136,31 @@ class App extends Component {
     });
   }
 
-  generateIngredients(recipes) {
-    const ingredients = {};
-
-    recipes.forEach((recipe) => {
-      const uniqIngredients = uniq(recipe.ingredients);
-      uniqIngredients.forEach((ingredient) => {
-        let count = 0;
-        let recipeNames = [];
-        let recipeTypes = [];
-        if (ingredients[ingredient]) {
-          count = ingredients[ingredient].count;
-          recipeNames = ingredients[ingredient].recipeNames;
-          recipeTypes = ingredients[ingredient].recipeTypes;
-        }
-        count += 1;
-        recipeNames.push(recipe.name);
-        recipeTypes.push(recipe.type);
-        ingredients[ingredient] = {
-          name: ingredient,
-          count,
-          recipeNames,
-          recipeTypes,
-        };
-      });
-    });
-
-    const sortedIngredients = {};
-    Object.keys(ingredients).sort().forEach((key) => {
-      sortedIngredients[key] = ingredients[key];
-    });
-
-    return sortedIngredients;
-  }
-
-  filterRecipes(checked, recipes) {
-    if (!checked.length) {
-      return recipes;
-    }
-
-    let filteredRecipes = [];
-    filteredRecipes = recipes.filter((recipe) => {
-      if (intersection(recipe.ingredients, checked).length) {
-        return recipe;
-      }
-      return null;
-    });
-    return filteredRecipes;
-  }
-
-  updateIngredients = (name) => {
+  // Takes in an ingredient and adds or removes it from the state and localStorage
+  updateIngredients = (ingredient) => {
     const { checked, recipes } = this.state;
-    const updatedChecked = checked;
-    if (includes(checked, name)) {
-      pull(updatedChecked, name);
+    if (includes(checked, ingredient)) {
+      // If the checked list already has the ingredient then remove it
+      pull(checked, ingredient);
     } else {
-      updatedChecked.push(name);
+      // Add the ingredient to the list if its not there
+      checked.push(ingredient);
     }
-    localStorage.checked = JSON.stringify(updatedChecked);
+    // Sync the user's localStorage to the new list
+    localStorage.checked = JSON.stringify(checked);
+    // Update the state and refilter the recipes
     this.setState({
-      checked: updatedChecked,
-      filteredRecipes: this.filterRecipes(updatedChecked, recipes),
+      checked,
+      filteredRecipes: this.filterRecipes(checked, recipes),
     });
   }
 
+  resetApp = () => {
+    localStorage.clear();
+    this.loadApp();
+  }
+
+  // Takes in two objects and compare's their name attirbute to sort them alphabetically
   compare(a, b) {
     if (a.name.toLowerCase() < b.name.toLowerCase()) {
       return -1;
@@ -146,6 +178,7 @@ class App extends Component {
           <h1>Reci-Pie</h1>
           <AddRecipe
             recipes={recipes}
+            resetApp={this.resetApp}
           />
           <div className="flexbox">
             <IngredientList

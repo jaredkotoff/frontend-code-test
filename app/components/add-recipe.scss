@@ -45,10 +45,21 @@
   }
 }
 
-.toggle-add-button {
+%floating-button {
   position: absolute;
   right: 0;
   top: -55px;
+}
+
+.toggle-add-button {
+  @extend %floating-button;
+}
+
+.reset-app-button {
+  @extend %floating-button;
+  background-color: $black;
+  color: $red;
+  top: -100px;
 }
 
 .add-button {

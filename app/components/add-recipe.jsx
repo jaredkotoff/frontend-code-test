@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 class AddRecipe extends Component {
   static propTypes = {
     recipes: PropTypes.array.isRequired,
+    resetApp: PropTypes.func.isRequired,
   }
 
   constructor() {
@@ -151,6 +152,19 @@ class AddRecipe extends Component {
     );
   }
 
+  renderResetButton() {
+    return (
+      <button
+        type="button"
+        title="Resets all user generated content"
+        className="reset-app-button"
+        onClick={this.props.resetApp}
+      >
+        Reset App
+      </button>
+    );
+  }
+
   render() {
     const { active } = this.state;
     let content = this.renderAddButton();
@@ -159,7 +173,7 @@ class AddRecipe extends Component {
     }
     return (
       <div className="add-recipe-container">
-        {content}
+        {content}{this.renderResetButton()}
       </div>
     );
   }
