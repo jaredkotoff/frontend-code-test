@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-import { capitalize } from 'lodash';
-
 class AddRecipe extends Component {
   static propTypes = {
     recipes: PropTypes.array.isRequired,
@@ -42,20 +40,26 @@ class AddRecipe extends Component {
     this.setState({ ingredients: e.target.value });
   }
 
+  titleName(name) {
+    return name.trim().replace(/\b\w+/g, (s) =>
+      s.charAt(0).toUpperCase() + s.substr(1).toLowerCase()
+    );
+  }
+
   handleSubmit = () => {
     const { name, type, cookTime, ingredients } = this.state;
     const ingredientsArray = ingredients.split(',').map((ingredient) =>
-      capitalize(ingredient.trim())
-    )
-    .filter((ingredient) => {
+      this.titleName(ingredient)
+    ).filter((ingredient) => {
       if (ingredient.length >= 1) {
         return true;
       }
       return false;
     });
+
     const newRecipe = {
-      name,
-      type,
+      name: this.titleName(name),
+      type: this.titleName(type),
       cook_time: Number(cookTime),
       ingredients: ingredientsArray,
       isUserGenerated: true,
