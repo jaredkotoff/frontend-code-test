@@ -43,7 +43,7 @@ class AddRecipe extends Component {
       type,
       cook_time: Number(cookTime),
       ingredients,
-      userGenerated: true,
+      isUserGenerated: true,
     };
     let userRecipes = [];
     if (localStorage.userRecipes) {

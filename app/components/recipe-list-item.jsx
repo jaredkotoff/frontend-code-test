@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { uniq } from 'lodash';
+import { uniq, pull } from 'lodash';
 
 class RecipeListItem extends Component {
   static propTypes = {
@@ -8,7 +8,36 @@ class RecipeListItem extends Component {
       type: PropTypes.string.isRequired,
       cook_time: PropTypes.number.isRequired,
       ingredients: PropTypes.array.isRequired,
+      isUserGenerated: PropTypes.bool,
     }),
+    updateRecipes: PropTypes.func.isRequired,
+  }
+
+  deleteUserRecipe = () => {
+    const { recipe: { name }, updateRecipes } = this.props;
+    const userRecipes = JSON.parse(localStorage.userRecipes);
+    userRecipes.forEach((recipe) => {
+      if (recipe.name === name) {
+        pull(userRecipes, recipe);
+      }
+    });
+
+    localStorage.userRecipes = JSON.stringify(userRecipes);
+    updateRecipes();
+  }
+
+  renderDeleteButton(isUserGenerated) {
+    if (!isUserGenerated) return null;
+    return (
+      <button
+        type="button"
+        className="delete-button"
+        onClick={this.deleteUserRecipe}
+        title="This is a user added recipe and can be deleted"
+      >
+        X
+      </button>
+    );
   }
 
   renderIngredient(ingredient) {
@@ -25,10 +54,11 @@ class RecipeListItem extends Component {
   }
 
   render() {
-    const { name, type, cook_time: cookTime, ingredients } = this.props.recipe;
+    const { name, type, cook_time: cookTime, ingredients, isUserGenerated } = this.props.recipe;
 
     return (
       <div className="recipe content-box">
+        {this.renderDeleteButton(isUserGenerated)}
         <h2 className="recipe-name">{name}</h2>
         <span className="recipe-info">
           {type} - {cookTime} mins

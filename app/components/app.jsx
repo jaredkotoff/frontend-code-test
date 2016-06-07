@@ -73,6 +73,24 @@ class App extends Component {
     });
   }
 
+  fetchRecipes = () => {
+    let checked = [];
+    if (localStorage.checked) {
+      checked = JSON.parse(localStorage.checked);
+    }
+
+    let userRecipes = [];
+    if (localStorage.userRecipes) {
+      userRecipes = JSON.parse(localStorage.userRecipes);
+    }
+
+    const allRecipes = recipeData.concat(userRecipes);
+    this.setState({
+      checked,
+      filteredRecipes: this.filterRecipes(checked, allRecipes),
+    });
+  }
+
   filterRecipes(checked, recipes) {
     if (!checked.length) {
       return recipes;
@@ -130,6 +148,7 @@ class App extends Component {
             />
             <RecipeList
               recipes={filteredRecipes}
+              updateRecipes={this.fetchRecipes}
             />
           </div>
         </div>
