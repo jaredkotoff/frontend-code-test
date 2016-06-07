@@ -5,8 +5,9 @@ This is an at-home exercise that DataScience uses as part of their standard inte
 
 ## Instructions
 
-* run `npm install`
-* open `index.html`
+1. run `npm install`
+2. run `webpack -p` for production, `webpack` to build, or `webpack --watch` for active development
+3. open `index.html`
 
 ## Requirements
 
