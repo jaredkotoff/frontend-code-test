@@ -95,6 +95,7 @@ class AddRecipe extends Component {
             <input
               type="text"
               name="name"
+              id="name"
               placeholder="SpaPeggy and Meatballs"
               value={name}
               onChange={this.handleNameChange}
@@ -104,6 +105,7 @@ class AddRecipe extends Component {
             <input
               type="text"
               name="type"
+              id="type"
               placeholder="Texas-Italian"
               value={type}
               onChange={this.handleTypeChange}
@@ -113,6 +115,7 @@ class AddRecipe extends Component {
             <input
               type="number"
               name="cook_time"
+              id="cook_time"
               value={cookTime}
               min={0}
               max={999}
@@ -127,6 +130,7 @@ class AddRecipe extends Component {
             <textarea
               type="text"
               name="ingredients"
+              id="ingredients"
               placeholder="Enter ingredients separated by a comma: Spaghetti, Tomato Sauce"
               onChange={this.handleIngredientsChange}
               required
