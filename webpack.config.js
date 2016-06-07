@@ -1,8 +1,15 @@
+var webpack = require('webpack');
+
 module.exports = {
   entry: './app/main.js',
   output: {
     filename: 'dist/bundle.js'
   },
+  plugins: [new webpack.DefinePlugin({
+    "process.env": {
+       NODE_ENV: JSON.stringify("production")
+     }
+  })],
   module: {
     preLoaders: [
       {
