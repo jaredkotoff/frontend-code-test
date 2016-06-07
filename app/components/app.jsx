@@ -10,8 +10,14 @@ const recipeData = require('../data/recipes.json');
 class App extends Component {
   constructor() {
     super();
+
+    let checked = [];
+    if (localStorage.checked) {
+      checked = JSON.parse(localStorage.checked);
+    }
+
     this.state = {
-      checked: [],
+      checked,
       filteredRecipes: [],
       ingredients: [],
       recipes: recipeData.sort(this.compare),
@@ -19,7 +25,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    const recipes = recipeData.sort(this.compare);
+    const { recipes, checked } = this.state;
     const ingredients = {};
 
     recipes.forEach((recipe) => {
@@ -49,22 +55,17 @@ class App extends Component {
     Object.keys(ingredients).sort().forEach((key) => {
       sortedIngredients[key] = ingredients[key];
     });
-    let checked = [];
-    if (localStorage.checked) {
-      checked = JSON.parse(localStorage.checked);
-    }
-    const filteredRecipes = this.filterRecipes(checked);
+
+    const filteredRecipes = this.filterRecipes(checked, recipes);
     this.setState({
+      checked,
+      filteredRecipes,
       ingredients: sortedIngredients,
       recipes,
-      filteredRecipes,
-      checked,
     });
   }
 
-  filterRecipes = (checked) => {
-    const { recipes } = this.state;
-
+  filterRecipes(checked, recipes) {
     if (!checked.length) {
       return recipes;
     }
@@ -80,7 +81,7 @@ class App extends Component {
   }
 
   updateIngredients = (name) => {
-    const { checked } = this.state;
+    const { checked, recipes } = this.state;
     const updatedChecked = checked;
     console.log(updatedChecked);
     if (includes(checked, name)) {
@@ -91,7 +92,7 @@ class App extends Component {
     localStorage.checked = JSON.stringify(updatedChecked);
     this.setState({
       checked: updatedChecked,
-      filteredRecipes: this.filterRecipes(updatedChecked),
+      filteredRecipes: this.filterRecipes(updatedChecked, recipes),
     });
   }
 
@@ -114,10 +115,10 @@ class App extends Component {
             <IngredientList
               ingredients={ingredients}
               updateIngredients={this.updateIngredients}
+              checkedIngredients={checked}
             />
             <RecipeList
               recipes={filteredRecipes}
-              checkedIngredients={checked}
             />
           </div>
         </div>
