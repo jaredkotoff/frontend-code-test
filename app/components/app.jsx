@@ -179,6 +179,7 @@ class App extends Component {
           <AddRecipe
             recipes={recipes}
             resetApp={this.resetApp}
+            updateApp={this.loadApp}
           />
           <div className="flexbox">
             <IngredientList

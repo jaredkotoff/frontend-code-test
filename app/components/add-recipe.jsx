@@ -4,6 +4,7 @@ class AddRecipe extends Component {
   static propTypes = {
     recipes: PropTypes.array.isRequired,
     resetApp: PropTypes.func.isRequired,
+    updateApp: PropTypes.func.isRequired,
   }
 
   constructor() {
@@ -47,7 +48,9 @@ class AddRecipe extends Component {
     );
   }
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { updateApp } = this.props;
     const { name, type, cookTime, ingredients } = this.state;
     const ingredientsArray = ingredients.split(',').map((ingredient) =>
       this.titleName(ingredient)
@@ -71,6 +74,18 @@ class AddRecipe extends Component {
     }
     userRecipes.push(newRecipe);
     localStorage.userRecipes = JSON.stringify(userRecipes);
+    this.resetState();
+    updateApp();
+  }
+
+  resetState = () => {
+    this.setState({
+      active: false,
+      name: '',
+      type: '',
+      cookTime: '',
+      ingredients: '',
+    });
   }
 
   renderAddButton() {
