@@ -24,10 +24,13 @@ class IngredientListItem extends Component {
         <input
           type="checkbox"
           name={ingredient.name}
+          id={ingredient.name}
           checked={checked}
           onChange={this.handleChange}
         />
-        {ingredient.name} <small>({ingredient.count})</small>
+        <label htmlFor={ingredient.name}>
+          {ingredient.name} <small>({ingredient.count})</small>
+        </label>
       </li>
     );
   }
