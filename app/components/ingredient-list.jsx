@@ -3,6 +3,7 @@ import IngredientListItem from './ingredient-list-item';
 
 import { includes } from 'lodash';
 
+// A list of ingredient items
 class IngredientList extends Component {
   static propTypes = {
     ingredients: PropTypes.object.isRequired,
@@ -10,10 +11,14 @@ class IngredientList extends Component {
     checkedIngredients: PropTypes.array.isRequired,
   }
 
+  // Renders a list of ingredient list elements
   renderIngredients = () => {
     const { ingredients, updateIngredients, checkedIngredients } = this.props;
+    // Loops though all ingredients
     return Object.keys(ingredients).map((ingredient) => {
       let checked = false;
+      // Checks if the current ingredient is in the list of checked ingredients to set the correct
+      // state on render when reloading the app
       if (includes(checkedIngredients, ingredient)) checked = true;
       return (
         <IngredientListItem

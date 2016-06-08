@@ -50,7 +50,7 @@ class App extends Component {
     });
   }
 
-  // Takes in an array of recipie objects and returns an object of ingredients with some stats
+  // Takes in an array of recipe objects and returns an object of ingredients with some stats
   generateIngredients(recipes) {
     const ingredients = {};
 

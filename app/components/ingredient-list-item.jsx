@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
+// A single ingredient list item that includes a checkbox and the name of the ingredient
 class IngredientListItem extends Component {
   static propTypes = {
     ingredient: PropTypes.shape({
@@ -12,11 +13,14 @@ class IngredientListItem extends Component {
     checked: PropTypes.bool.isRequired,
   }
 
+  // Handles the checking and unchecking of the checkbox
   handleChange = () => {
     const { updateCheck, ingredient: { name } } = this.props;
+    // Passes the name of the ingredient back to the parent for processing
     updateCheck(name);
   }
 
+  // Renders a checkbox with a label of the name of the ingredient
   render() {
     const { ingredient, checked } = this.props;
     return (
