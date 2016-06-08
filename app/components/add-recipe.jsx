@@ -201,7 +201,6 @@ class AddRecipe extends Component {
     );
   }
 
-  
   render() {
     const { active } = this.state;
     let content = this.renderAddButton();
